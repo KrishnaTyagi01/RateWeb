@@ -72,8 +72,58 @@ function showBox() {
         body.append(appended);
       }
 }
+function openDialog() {
+    document.getElementById('reviewbox').style.visibility = 'visible';
+    console.log("listening to hover")
+}
+function closeDialog() {
+    document.getElementById('reviewbox').style.visibility = 'hidden';
+    console.log("leaving..")
+}
+
+
+
+
+function showIcon() {
+    var body = document.getElementsByTagName("body")[0];
+    // var icondiv = document.createElement('div'); 
+    // icondiv.style.cssText = "font-size: 2rem;position: fixed;z-index:10; bottom: 1rem; right: 1rem;" 
+    // icondiv.textContent = `My Icon`
+    var logobtn = document.createElement('img');
+    logobtn.src = chrome.runtime.getURL("assets/logo.svg");
+    logobtn.setAttribute("id","getweblogobtn");
+    logobtn.addEventListener('mouseover', openDialog);
+    // logobtn.addEventListener('', closeDialog);
+    logobtn.style.cssText = "width:4rem; height:4rem; position: fixed;z-index:10000; bottom: 2rem; right: 2rem;cursor: pointer;";
+   
+    var reviewBox = document.createElement('div');
+    reviewBox.classList.add('reviewbox');
+    reviewBox.setAttribute("id","reviewbox");
+    reviewBox.style.cssText = 'height:50vh; width:30vw; visibility: hidden; display:fixed; background:red;position:fixed;z-index:10000; bottom:5.5rem; right:5.5rem';
+   
+   
+
+    // I'm using "click" but it works with any event
+    document.addEventListener('click', event => {
+      const isClickInside = reviewBox.contains(event.target)
+    
+      if (!isClickInside) {
+        // The click was OUTSIDE the specifiedElement, do something
+        console.log("click was outside man")
+        closeDialog();
+      }
+    })
+
+   
+    body.appendChild(logobtn);
+    body.appendChild(reviewBox);
+   
+
+
+}
 
 window.onload = function () {
     showBox();
+    showIcon();
     console.log("content script running")
 };
